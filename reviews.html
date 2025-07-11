@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShyamaPrabha PG Reviews</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #000;
+            --secondary: #fff;
+            --accent: #333;
+            --light-gray: #f5f5f5;
+            --medium-gray: #ddd;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--secondary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: #555;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 28px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: var(--transition);
+            padding: 5px 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .scroll-btn {
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid var(--primary);
+            margin-left: 20px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .scroll-btn:hover {
+            background: var(--primary);
+            color: var(--secondary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+        }
+
+        .reviews-section {
+            padding: 100px 0 70px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.3rem;
+            margin-bottom: 45px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .review-card {
+            background: var(--light-gray);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .review-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-right: 10px;
+            text-transform: uppercase;
+        }
+
+        .review-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+        }
+
+        .review-card .rating {
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+
+        .review-card .timestamp {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .review-comment {
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .ellipsis-menu {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--accent);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .ellipsis-menu:hover {
+            color: var(--primary);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 10px;
+            top: 100%;
+            background: var(--secondary);
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 10;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu button {
+            background: none;
+            border: none;
+            padding: 8px 16px;
+            width: 100%;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #ff4d4d;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dropdown-menu button:hover {
+            background: #ff4d4d;
+            color: var(--secondary);
+        }
+
+        .review-form {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 30px;
+            font-size: 0.95rem;
+            background: var(--secondary);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .form-group .rating-stars {
+            display: flex;
+            gap: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .form-group .rating-stars i {
+            color: #c4afaf;
+            transition: var(--transition);
+        }
+
+        .form-group .rating-stars i.active {
+            color: #ffcc00;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .review-count {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--accent);
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: var(--secondary);
+                width: 70%;
+                height: calc(100vh - 70px);
+                padding: 20px;
+                transition: var(--transition);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .section-title {
+                font-size: 1.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .review-form {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Shyama<span>Prabha</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#properties">Properties</a></li>
+                    <li><a href="reviews.html">Reviews</a></li>
+                    <li><a href="https://maps.app.goo.gl/B1SMz9EfpT2mnHUt8">Location</a></li>
+                    <li><a href="https://wa.me/+918606777363">Whatsapp</a></li>
+                    <li><a href="tel:8606777363">Call</a></li>
+                    <li id="loginLink"><a href="login.html">Login</a></li>
+                    <li id="profileLink" style="display: none;"><a href="profile.html">Profile</a></li>
+                    <li id="logoutLink" style="display: none;"><a href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+                <div class="account-info" id="accountInfo" onclick="window.location.href='profile.html'">
+                    <div class="account-icon"><i class="fa-solid fa-user"></i></div>
+                    <span id="userName"></span>
+                </div>
+                <a href="signup.html" class="scroll-btn" id="signupLink">Login</a>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="reviews-section" id="reviews">
+        <div class="container">
+            <h2 class="section-title">Guest Reviews</h2>
+            <div class="review-form">
+                <h3>Write Your Review</h3>
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <div class="rating-stars" id="ratingStars">
+                            <i class="fas fa-star" data-value="1"></i>
+                            <i class="fas fa-star" data-value="2"></i>
+                            <i class="fas fa-star" data-value="3"></i>
+                            <i class="fas fa-star" data-value="4"></i>
+                            <i class="fas fa-star" data-value="5"></i>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Your Review</label>
+                        <textarea id="comment" name="comment" placeholder="Share your experience" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-block">Submit Review</button>
+                    <div class="review-count" id="reviewCount">Review count: 0</div>
+                </form>
+            </div>
+            <div class="reviews-grid" id="reviewsGrid"></div>
+        </div>
+    </section>
+
+    <script>
+        // Configure Axios with base URL
+        axios.defaults.baseURL = 'https://api-hammadii-6.onrender.com/';
+
+        // Hamburger Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Profile and Logout Functionality
+        function updateNavbar() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginLink = document.getElementById('loginLink');
+            const profileLink = document.getElementById('profileLink');
+            const logoutLink = document.getElementById('logoutLink');
+            const signupLink = document.getElementById('signupLink');
+            const accountInfo = document.getElementById('accountInfo');
+            const userNameSpan = document.getElementById('userName');
+
+            if (isLoggedIn) {
+                loginLink.style.display = 'none';
+                signupLink.style.display = 'none';
+                profileLink.style.display = 'block';
+                logoutLink.style.display = 'block';
+                accountInfo.classList.add('show');
+                const userName = localStorage.getItem('userName') || 'User';
+                userNameSpan.textContent = userName;
+            } else {
+                loginLink.style.display = 'block';
+                signupLink.style.display = 'inline-block';
+                profileLink.style.display = 'none';
+                logoutLink.style.display = 'none';
+                accountInfo.classList.remove('show');
+                userNameSpan.textContent = '';
+            }
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            updateNavbar();
+            window.location.href = 'index.html';
+        });
+
+        // Reviews Functionality
+        async function fetchReviews() {
+            try {
+                const response = await axios.get('/reviews');
+                const reviewsGrid = document.getElementById('reviewsGrid');
+                const reviewCount = document.getElementById('reviewCount');
+                const currentUser = localStorage.getItem('userName') || '';
+                reviewsGrid.innerHTML = '';
+                response.data.forEach(review => {
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'review-card';
+                    const formattedDate = new Date(review.createdAt).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    });
+                    const firstLetter = review.name.charAt(0).toUpperCase();
+                    reviewCard.innerHTML = `
+                        <div class="review-header">
+                            <div class="profile-avatar">${firstLetter}</div>
+                            <h3>${review.name}</h3>
+                        </div>
+                        <div class="rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                        <div class="timestamp">${formattedDate}</div>
+                        <div class="review-comment">
+                            <p>${review.comment}</p>
+                            ${currentUser === review.name ? `
+                                <div class="ellipsis-menu" data-id="${review.id}"><i class="fas fa-ellipsis-v"></i></div>
+                                <div class="dropdown-menu" data-id="${review.id}">
+                                    <button class="delete-btn" data-id="${review.id}">Delete Review</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    reviewsGrid.appendChild(reviewCard);
+                });
+
+                // Update review count
+                reviewCount.textContent = `Review count: ${response.data.length}`;
+
+                // Add event listeners to ellipsis menus
+                document.querySelectorAll('.ellipsis-menu').forEach(menu => {
+                    menu.addEventListener('click', () => {
+                        const reviewId = menu.getAttribute('data-id');
+                        const dropdown = document.querySelector(`.dropdown-menu[data-id="${reviewId}"]`);
+                        dropdown.classList.toggle('active');
+                    });
+                });
+
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', async () => {
+                        const reviewId = button.getAttribute('data-id');
+                        if (confirm('Are you sure you want to delete this review?')) {
+                            try {
+                                await axios.delete(`/reviews/${reviewId}`, {
+                                    data: { name: currentUser }
+                                });
+                                alert('Review deleted successfully!');
+                                fetchReviews();
+                            } catch (error) {
+                                console.error('Error deleting review:', error);
+                                alert('Failed to delete review. Please try again later.');
+                            }
+                        }
+                    });
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.ellipsis-menu')) {
+                        document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                            dropdown.classList.remove('active');
+                        });
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+                alert('Failed to load reviews. Please try again later.');
+            }
+        }
+
+        const reviewForm = document.getElementById('reviewForm');
+        const ratingStars = document.querySelectorAll('#ratingStars i');
+        const ratingInput = document.getElementById('rating');
+
+        ratingStars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = star.getAttribute('data-value');
+                ratingInput.value = rating;
+                ratingStars.forEach(s => s.classList.remove('active'));
+                for (let i = 0; i < rating; i++) {
+                    ratingStars[i].classList.add('active');
+                }
+            });
+        });
+
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const rating = document.getElementById('rating').value;
+            const comment = document.getElementById('comment').value.trim();
+
+            if (!name || !rating || !comment) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            try {
+                await axios.post('/reviews',{
+                    name,
+                    rating: parseInt(rating),
+                    comment
+                });
+                alert('Review submitted successfully!');
+                reviewForm.reset();
+                ratingStars.forEach(star => star.classList.remove('active'));
+                ratingInput.value = '';
+                fetchReviews();
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                alert('Failed to submit review. Please try again later.');
+            }
+        });
+
+        window.addEventListener('load', () => {
+            updateNavbar();
+            fetchReviews();
+        });
+    </script>
+</body>
+</html>
