@@ -23,6 +23,7 @@
             --light-gray: #f5f5f5;
             --medium-gray: #ddd;
             --transition: all 0.3s ease;
+            --error-color: #ff4d4d;
         }
 
         body {
@@ -252,13 +253,13 @@
             width: 100%;
             text-align: left;
             font-size: 0.9rem;
-            color: #ff4d4d;
+            color: var(--error-color);
             cursor: pointer;
             transition: var(--transition);
         }
 
         .dropdown-menu button:hover {
-            background: #ff4d4d;
+            background: var(--error-color);
             color: var(--secondary);
         }
 
@@ -342,6 +343,41 @@
             margin-top: 15px;
         }
 
+        .error-message {
+            color: var(--error-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            display: none;
+            padding: 10px;
+            background: rgba(255, 77, 77, 0.1);
+            border-radius: 8px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .loading-message {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--accent);
+            padding: 20px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .loading-message i {
+            margin-right: 8px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .hamburger {
                 display: block;
@@ -416,6 +452,7 @@
     <section class="reviews-section" id="reviews">
         <div class="container">
             <h2 class="section-title">Guest Reviews</h2>
+            <div class="error-message" id="errorMessage"></div>
             <div class="review-form">
                 <h3>Write Your Review</h3>
                 <form id="reviewForm">
@@ -441,6 +478,9 @@
                     <button type="submit" class="btn btn-block">Submit Review</button>
                     <div class="review-count" id="reviewCount">Review count: 0</div>
                 </form>
+            </div>
+            <div class="loading-message" id="loadingMessage">
+                <i class="fas fa-spinner"></i>Unpacking guest stories.. This won’t take long!
             </div>
             <div class="reviews-grid" id="reviewsGrid"></div>
         </div>
@@ -497,8 +537,21 @@
             window.location.href = 'index.html';
         });
 
+        // Function to show error message
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+                errorMessage.textContent = '';
+            }, 5000); // Hide after 5 seconds
+        }
+
         // Reviews Functionality
         async function fetchReviews() {
+            const loadingMessage = document.getElementById('loadingMessage');
+            loadingMessage.style.display = 'block';
             try {
                 const response = await axios.get('/reviews');
                 const reviewsGrid = document.getElementById('reviewsGrid');
@@ -558,11 +611,11 @@
                                 await axios.delete(`/reviews/${reviewId}`, {
                                     data: { name: currentUser }
                                 });
-                                alert('Review deleted successfully!');
+                                showError('Review deleted successfully!');
                                 fetchReviews();
                             } catch (error) {
                                 console.error('Error deleting review:', error);
-                                alert('Failed to delete review. Please try again later.');
+                                showError('Failed to delete review. Please try again later.');
                             }
                         }
                     });
@@ -578,7 +631,9 @@
                 });
             } catch (error) {
                 console.error('Error fetching reviews:', error);
-                alert('Failed to load reviews. Please try again later.');
+                showError('Failed to load reviews. Please try again later.');
+            } finally {
+                loadingMessage.style.display = 'none';
             }
         }
 
@@ -604,24 +659,24 @@
             const comment = document.getElementById('comment').value.trim();
 
             if (!name || !rating || !comment) {
-                alert('Please fill in all fields.');
+                showError('Please fill in all fields.');
                 return;
             }
 
             try {
-                await axios.post('/reviews',{
+                await axios.post('/reviews', {
                     name,
                     rating: parseInt(rating),
                     comment
                 });
-                alert('Review submitted successfully!');
+                showError('Review submitted successfully!');
                 reviewForm.reset();
                 ratingStars.forEach(star => star.classList.remove('active'));
                 ratingInput.value = '';
                 fetchReviews();
             } catch (error) {
                 console.error('Error submitting review:', error);
-                alert('Failed to submit review. Please try again later.');
+                showError('Failed to submit review. Please try again later.');
             }
         });
 
