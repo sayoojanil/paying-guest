@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <!-- Removed deprecated EmailJS script and replaced with SDK v4 -->
     <style>
         * {
             margin: 0;
@@ -360,7 +361,7 @@
         .property-price {
             font-size: 1.4rem;
             font-weight: 700;
-            margin: 14px 0;
+            margin: 14px 0; 
             color: var(--primary);
         }
 
@@ -600,7 +601,7 @@
 
         .contact-detail {
             display: flex;
-            margin-bottom: 22px;
+            margin-bottom: 25px;
         }
 
         .contact-icon {
@@ -618,7 +619,7 @@
             width: 100%;
             padding: 14px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 20px;
             font-size: 0.95rem;
             background: var(--light-gray);
         }
@@ -709,8 +710,36 @@
             color: #999;
         }
 
-        
+        .comments-section {
+            margin-top: 35px;
+        }
 
+        .comments-section h3 {
+            font-size: 1.7rem;
+            margin-bottom: 18px;
+        }
+
+        .comments-section p {
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .comments-section .btn {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 11px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+        }
+
+        .comments-section .btn:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: scale(1.05);
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -881,18 +910,6 @@
                 font-size: 16px;
             }
 
-            .offer-popup {
-                padding: 20px;
-            }
-
-            .offer-popup h2 {
-                font-size: 1.5rem;
-            }
-
-            .offer-popup p {
-                font-size: 0.9rem;
-            }
-
             .reviews-btn .btn {
                 padding: 12px 30px;
                 font-size: 1rem;
@@ -928,7 +945,7 @@
             }
 
             .swiper-button-next, .swiper-button-prev {
-                display: block; /* Ensure buttons are visible on mobile */
+                display: block;
                 padding: 8px;
                 width: 28px;
                 height: 28px;
@@ -939,20 +956,7 @@
             }
 
             .swiper-button-next::after, .swiper-button-prev::after {
-                font-size: 14px; /* Smaller arrows for mobile */
-            }
-
-            .offer-popup {
-                width: 95%;
-                padding: 15px;
-            }
-
-            .offer-popup h2 {
-                font-size: 1.3rem;
-            }
-
-            .offer-popup p {
-                font-size: 0.85rem;
+                font-size: 14px;
             }
 
             .scroll-btn, .account-info {
@@ -977,10 +981,10 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="#properties">Properties</a></li>
                     <li><a href="reviews.html">Reviews</a></li>
+                    <li><a href="comments.html">Client Q&A</a></li>
                     <li><a href="https://maps.app.goo.gl/B1SMz9EfpT2mnHUt8">Location</a></li>
                     <li><a href="https://wa.me/+918606777363">Whatsapp</a></li>
                     <li><a href="tel:8606777363">Call</a></li>
-                    <li id="loginLink"><a href="login.html">Login</a></li>
                     <li id="profileLink" style="display: none;"><a href="profile.html">Profile</a></li>
                     <li id="logoutLink" style="display: none;"><a href="#" id="logoutBtn">Logout</a></li>
                 </ul>
@@ -1005,13 +1009,6 @@
             </div>
         </div>
     </section>
-
-    <div class="offer-popup" id="offerPopup">
-        <div class="close-popup" id="closePopup">
-            <i class="fas fa-times"></i>
-        </div>
-        
-    </div>
 
     <section class="features" id="features">
         <div class="container">
@@ -1043,7 +1040,7 @@
                         <i class="fas fa-location-arrow"></i>
                     </div>
                     <h3>Location and Accesibility</h3>
-                    <p>Conveniently located near CyberPark, Hilite Business Park, and Hilite Mall, everything you need is within easy reach. Whether it’s shopping, dining, or work, everything is just a stone’s throw away, making it the perfect spot for students and working professionals alike.</p>
+                    <p>Conveniently located near CyberPark, hilite Business Park, and Hilite Mall, everything you need is within easy reach. Whether it’s shopping, dining, or work, everything is just a stone’s throw away, making it the perfect spot for students and working professionals alike.</p>
                 </div>
                  <div class="feature-card">
                     <div class="feature-icon">
@@ -1096,6 +1093,7 @@ Washing is to be done by the guests themselves.</p>
                         <div class="property-price"></div>
                         <a href="reviews.html" class="btn view-details">Click For Reviews</a>
                     </div>
+              
                 </div>
             </div>
         </div>
@@ -1127,12 +1125,18 @@ Washing is to be done by the guests themselves.</p>
                     <div class="details-features" id="detailFeatures"></div>
                     <h3>About This Property</h3>
                     <p id="detailAbout"></p>
+                    <div class="comments-section">
+                        <h3>Comments</h3>
+                        <p>View and share your thoughts about this property.</p>
+                        <a href="comments.html" class="btn">Ask qustions to us</a>
+                    </div>
                 </div>
                 <div class="details-sidebar">
                     <div class="price-box">
                         <div class="price" id="sidebarPrice"></div>
                         <div class="period" id="sidebarPeriod"></div>
                     </div>
+                    
                     <div class="booking-form">
                         <h3>Send Enquiry</h3>
                         <form id="bookingForm">
@@ -1206,7 +1210,7 @@ Washing is to be done by the guests themselves.</p>
                         </div>
                         <div>
                             <h4>Working Hours</h4>
-                            <p>Monday - Sunday: 8:00 AM - 9:00 PM</p>
+                            <p>Monday - Sunday: 8:00 AM - 10:00 |
                         </div>
                     </div>
                 </div>
@@ -1247,19 +1251,11 @@ Washing is to be done by the guests themselves.</p>
                         <li><a href="#features">Features</a></li>
                         <li><a href="#properties">Properties</a></li>
                         <li><a href="reviews.html">Reviews</a></li>
+                        <li><a href="comments.html">Client Q&A</a></li>
+                        <li><a href="comments.html">Comments</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li><a href="https://maps.app.goo.gl/h3vZxvfrmCVgXtgj6">Location</a></li>
                     </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Newsletter</h3>
-                    <p>Subscribe to receive updates on new properties and special offers.</p>
-                    <form>
-                        <div class="form-group">
-                            <input type="email" placeholder="Your Email" required>
-                        </div>
-                        <button type="submit" class="btn">Subscribe</button>
-                    </form>
                 </div>
             </div>
             <div class="copyright">
@@ -1269,10 +1265,6 @@ Washing is to be done by the guests themselves.</p>
     </footer>
 
     <script>
-(function(){
-    emailjs.init("cESbwvGQoIDLx4ud6");
-})();
-
 const properties = [
     {
         id: 1,
@@ -1289,9 +1281,8 @@ const properties = [
             "WhatsApp Image 2025-07-11 at 00.29.30_87c07a00.jpg",
             "WhatsApp Image 2025-07-11 at 00.31.47_1e596f6d.jpg",
            " WhatsApp Image 2025-07-21 at 14.55.01_a7a16c8a.jpg",
-       "WhatsApp Image 2025-07-21 at 14.55.01_f8e8f9c1.jpg"
-
-    ],
+           "WhatsApp Image 2025-07-21 at 14.55.01_f8e8f9c1.jpg"
+        ],
         features: [
             { icon: "fas fa-wifi", text: "High-speed WiFi" },
             { icon: "fas fa-shower", text: "Attached Bathroom" },
@@ -1454,6 +1445,7 @@ viewDetailBtns.forEach(btn => {
         if (propertyCard) {
             const propertyId = propertyCard.dataset.id;
             showPropertyDetails(propertyId);
+            console.log("showing propery details for id ", propertyId);
         } else {
             console.error('Property card not found for button:', btn);
         }
@@ -1484,7 +1476,7 @@ const popupCloseBtn = document.getElementById('popupCloseBtn');
 
 window.addEventListener('load', () => {
     setTimeout(() => {
-        offerPopup.classList.add('show');
+        offerPopup.classList.add('propertswiper');
         document.body.classList.add('blur-background');
     }, 3000);
 });
@@ -1524,6 +1516,7 @@ bookingForm.addEventListener('submit', function(e) {
             if (whatsappWindow) {
                 bookingForm.reset();
                 closePropertyDetails();
+                console.log('WhatsApp opened successfully:', whatsappUrl);
             } else {
                 alert('Unable to open WhatsApp. Please allow pop-ups and try again.');
             }
@@ -1536,28 +1529,58 @@ bookingForm.addEventListener('submit', function(e) {
     }
 });
 
-const contactForm = document.getElementById('contactForm');
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = contactForm.querySelector('input[name="name"]').value;
-    const email = contactForm.querySelector('input[name="email"]').value;
-    const phone = contactForm.querySelector('input[name="phone"]').value;
-    const message = contactForm.querySelector('textarea[name="message"]').value;
-    const templateParams = {
-        from_name: name,
-        from_email: email,
-        phone,
-        message
-    };
+// EmailJS SDK v4 Initialization and Form Submission
+(function() {
+    // No explicit initialization required for SDK v4
+    // The SDK is loaded via npm import or script tag, and credentials are handled per request
+})();
 
-    emailjs.send('service_c484z7s', 'template_ndc90nc', templateParams)
-        .then(function(response) {
-            alert('Message sent successfully!');
+const contactForm = document.getElementById('contactForm');
+contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
+
+    const name = contactForm.querySelector('input[name="name"]').value.trim();
+    const email = contactForm.querySelector('input[name="email"]').value.trim();
+    const phone = contactForm.querySelector('input[name="phone"]').value.trim();
+    const message = contactForm.querySelector('textarea[name="message"]').value.trim();
+    
+    if (name && email && phone && message) {
+        const templateParams = {
+            from_name: name,
+            from_email: email,
+            phone: phone,
+            message: message,
+            to_email: "sayoojanil977@gmail.com"
+        };
+
+        try {
+            const response = await emailjs.send(
+                'service_yrge7og', // Your EmailJS Service ID
+                'template_ndc90nc', // Your EmailJS Template ID
+                templateParams,
+                {
+                    publicKey: 'wGLn-tJ1O2G9maSvc' // Your EmailJS Public Key
+                }
+            );
+            console.log('Email sent successfully:', response.status, response.text);
+            alert('Your message has been sent successfully!');
             contactForm.reset();
-        }, function(error) {
-            alert('Failed to send message. Please try again later.');
-            console.error('EmailJS error:', error);
-        });
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Message';
+        } catch (error) {
+            console.error('Failed to send email:', error);
+            alert('Failed to send your message. Please try again later or contact us directly at sreelakshmiprasad76.');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Message';
+        }
+    } else {
+        alert('Please fill in all required fields.');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Send Message';
+    }
 });
 
 function updateNavbar() {

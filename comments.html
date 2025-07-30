@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShyamaPrabha PG FAQ</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #000;
+            --secondary: #fff;
+            --accent: #333;
+            --light-gray: #f5f5f5;
+            --medium-gray: #ddd;
+            --transition: all 0.3s ease;
+            --error-color: #ff4d4d;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--secondary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: var(--primary);
+            position: relative;
+            animation: pulseLogo 2s infinite;
+        }
+
+        .logo span {
+            color: #555;
+        }
+
+        @keyframes pulseLogo {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 28px;
+            opacity: 0;
+            animation: fadeInNav 0.5s ease forwards;
+            animation-delay: calc(0.1s * var(--i));
+        }
+
+        @keyframes fadeInNav {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: var(--transition);
+            padding: 5px 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .scroll-btn {
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid var(--primary);
+            margin-left: 20px;
+            font-size: 14px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-btn:hover {
+            background: var(--primary);
+            color: var(--secondary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .scroll-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .scroll-btn:hover::before {
+            left: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .faq-section {
+            padding: 100px 0 70px;
+            opacity: 1;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.3rem;
+            margin-bottom: 45px;
+            position: relative;
+            opacity: 1;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--medium-gray);
+            opacity: 1;
+        }
+
+        .faq-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .faq-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .faq-header .username {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .faq-question {
+            font-weight: 500;
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            padding-left: 52px; /* Align with username */
+        }
+
+        .faq-answer {
+            font-size: 14px;
+            color: var(--accent);
+            padding-left: 52px; /* Align with question */
+            margin-bottom: 8px;
+            opacity: 1;
+        }
+
+        .admin-label {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--accent);
+            padding-left: 52px; /* Align with answer */
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: var(--secondary);
+                width: 70%;
+                height: calc(100vh - 70px);
+                padding: 20px;
+                transition: var(--transition);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .section-title {
+                font-size: 1.9rem;
+            }
+
+            .faq-header .avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+
+            .faq-header .username {
+                font-size: 13px;
+            }
+
+            .faq-question {
+                font-size: 15px;
+                padding-left: 47px;
+            }
+
+            .faq-answer {
+                font-size: 13px;
+                padding-left: 47px;
+            }
+
+            .admin-label {
+                font-size: 11px;
+                padding-left: 47px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .faq-list {
+                padding: 0 15px;
+            }
+
+            .faq-header .avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+
+            .faq-header .username {
+                font-size: 12px;
+            }
+
+            .faq-question {
+                font-size: 14px;
+                padding-left: 40px;
+            }
+
+            .faq-answer {
+                font-size: 12px;
+                padding-left: 40px;
+            }
+
+            .admin-label {
+                font-size: 10px;
+                padding-left: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Shyama<span>Prabha</span></a>
+                <ul class="nav-links">
+                    <li style="--i: 1;"><a href="index.html#home">Home</a></li>
+                    <li style="--i: 2;"><a href="index.html#features">Features</a></li>
+                    <li style="--i: 3;"><a href="index.html#properties">Properties</a></li>
+                    <li style="--i: 4;"><a href="reviews.html">Reviews</a></li>
+                    <li style="--i: 5;"><a href="faq.html">Client Q&A</a></li>
+                    <li style="--i: 6;"><a href="https://maps.app.goo.gl/B1SMz9EfpT2mnHUt8">Location</a></li>
+                    <li style="--i: 7;"><a href="https://wa.me/+918606777363">Whatsapp</a></li>
+                    <li style="--i: 8;"><a href="tel:8606777363">Call</a></li>
+                    <li style="--i: 10;" id="profileLink" style="display: none;"><a href="profile.html">Profile</a></li>
+                    <li style="--i: 11;" id="logoutLink" style="display: none;"><a href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+                <div class="account-info" id="accountInfo" onclick="window.location.href='profile.html'">
+                    <div class="account-icon"><i class="fa-solid fa-user"></i></div>
+                    <span id="userName"></span>
+                </div>
+                <a href="signup.html" class="scroll-btn" id="signupLink">Login</a>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list" id="faqList">
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                        <span class="username">Sreeparvathi P</span>
+                    </div>
+                    <div class="faq-question">What are the check-in and check-out times?</div>
+                    <div class="faq-answer">
+                        Check-in time is 9:00 AM, and check-out time is 10:00 PM. Early check-in or late check-out may be available upon request, subject to availability.
+                    </div>
+                    <div class="admin-label">Answered by: ShyamaPrabha Admin</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                        <span class="username">Sona K S</span>
+                    </div>
+                    <div class="faq-question">Are meals included in the stay?</div>
+                    <div class="faq-answer">
+                        Yes, we provide complimentary breakfast and dinner for all residents. Special dietary requirements can be accommodated with prior notice.
+                    </div>
+                    <div class="admin-label">Answered by: ShyamaPrabha Admin</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                        <span class="username">Henna Parveen</span>
+                    </div>
+                    <div class="faq-question">Is there Wi-Fi available?</div>
+                    <div class="faq-answer">
+                        High-speed Wi-Fi is available throughout the property at no additional cost.
+                    </div>
+                    <div class="admin-label">Answered by: ShyamaPrabha Admin</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                        <span class="username">Anjali</span>
+                    </div>
+                    <div class="faq-question">What amenities are provided?</div>
+                    <div class="faq-answer">
+                        Our amenities include  laundry services and a common recreational area.
+                    </div>
+                    <div class="admin-label">Answered by: ShyamaPrabha Admin</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                        <span class="username">Jadheera</span>
+                    </div>
+                    <div class="faq-question">Is there a security deposit required?</div>
+                    <div class="faq-answer">
+                        Yes, a refundable security deposit is required at the time of check-in.     Amount is Rs2000.  The amount will be refunded upon check-out, subject to any deductions for damages.
+                    </div>
+                    <div class="admin-label">Answered by: ShyamaPrabha Admin</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Hamburger Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Profile and Logout Functionality
+        function updateNavbar() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginLink = document.getElementById('loginLink');
+            const profileLink = document.getElementById('profileLink');
+            const logoutLink = document.getElementById('logoutLink');
+            const signupLink = document.getElementById('signupLink');
+            const accountInfo = document.getElementById('accountInfo');
+            const userNameSpan = document.getElementById('userName');
+
+            if (isLoggedIn) {
+                loginLink.style.display = 'none';
+                signupLink.style.display = 'none';
+                profileLink.style.display = 'block';
+                logoutLink.style.display = 'block';
+                accountInfo.classList.add('show');
+                const userName = localStorage.getItem('userName') || 'User';
+                userNameSpan.textContent = userName;
+            } else {
+                loginLink.style.display = 'block';
+                signupLink.style.display = 'inline-block';
+                profileLink.style.display = 'none';
+                logoutLink.style.display = 'none';
+                accountInfo.classList.remove('show');
+                userNameSpan.textContent = '';
+            }
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('token');
+            updateNavbar();
+            window.location.href = 'index.html';
+        });
+
+        window.addEventListener('load', () => {
+            updateNavbar();
+            // Ensure FAQ items are visible on load
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.style.opacity = '1';
+            });
+        });
+    </script>
+</body>
+</html>
